@@ -1,61 +1,32 @@
-import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function App() {
-  const [text, setText] = useState(
-    "Open up App.js to start working on your app!"
-  );
+  const [enteredGoal, setEnteredGoal] = useState('');
+  const [courseGoals, setCourseGoals] = useState([]);
+
+  const goalInputHandler = (enteredText) => {
+    setEnteredGoal(enteredText);
+  };
+
+  const addGoalHandler = () => {
+    setCourseGoals(currentGoals => [...currentGoals, enteredGoal]);
+    setEnteredGoal('')
+  };
+
   return (
     <View style={styles.screen}>
-      <View>
+      <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Enter Course Goal"
-          style={styles.inputContainer}
+          placeholder="Course Goal"
+          style={styles.input}
+          onChangeText={goalInputHandler}
+          value={enteredGoal}
         />
-        <Button title="ADD" />
+        <Button title="ADD" onPress={addGoalHandler} />
       </View>
-
-      <View
-        style={{
-          padding: 50,
-          flexDirection: "row",
-          width: "80%",
-          height: 300,
-          justifyContent: "space-around",
-          alignItems: "stretch",
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: "red",
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text>1</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: "blue",
-            flex: 2,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text>2</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: "green",
-
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text>3</Text>
-        </View>
+      <View>
+        {courseGoals.map((goal) => <Text key={goal}>{goal}</Text>)}
       </View>
     </View>
   );
@@ -66,9 +37,14 @@ const styles = StyleSheet.create({
     padding: 25,
   },
   inputContainer: {
-    borderWidth: 1,
-    borderColor: "gray",
-    padding: 5,
-    marginBottom: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
+  input: {
+    width: '80%',
+    borderColor: 'black',
+    borderWidth: 1,
+    padding: 3
+  }
 });
