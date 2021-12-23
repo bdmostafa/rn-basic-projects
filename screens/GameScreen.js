@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import { Card } from "../components/Card";
 import { NumberContainer } from "../components/NumberContainer";
 
-export const GameScreen = ({ userChoice }) => {
+export const GameScreen = ({ userChoice, onGameOver }) => {
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
+  const [rounds, setRounds] = useState(0);
 
   const generateRandomBetween = (min, max, exclude) => {
     min = Math.ceil(min);
@@ -14,7 +15,6 @@ export const GameScreen = ({ userChoice }) => {
     const randomNumber = Math.floor(Math.random() * (max - min) + min);
 
     if (randomNumber === exclude) {
-      console.log('okkkk', randomNumber, exclude)
       return generateRandomBetween(min, max, exclude);
     } else {
       return randomNumber;
@@ -49,9 +49,17 @@ export const GameScreen = ({ userChoice }) => {
       currentHigh.current,
       currentGuess
     );
+
     setCurrentGuess(nextNumber);
+    setRounds((curRounds) => curRounds + 1);
   };
-  console.log(currentLow, currentHigh);
+
+  useEffect(() => {
+    if (currentGuess === userChoice) {
+      onGameOver(rounds);
+    }
+  }, [currentGuess, userChoice, onGameOver]);
+
   return (
     <View style={styles.screen}>
       <Text>Opponent's Guess</Text>
