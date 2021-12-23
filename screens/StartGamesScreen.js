@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-    Alert,
+  Alert,
   Button,
   Keyboard,
   StyleSheet,
@@ -13,7 +13,7 @@ import { Input } from "../components/Input";
 import { NumberContainer } from "../components/NumberContainer";
 import Colors from "../constants/colors";
 
-export const StartGamesScreen = () => {
+export const StartGamesScreen = ({ onStartGame }) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
@@ -50,7 +50,11 @@ export const StartGamesScreen = () => {
       <Card style={styles.summaryContainer}>
         <Text>You selected</Text>
         <NumberContainer>{selectedNumber}</NumberContainer>
-        <Button title="START GAME" />
+        <Button
+          color={Colors.accent}
+          title="START GAME"
+          onPress={() => onStartGame(selectedNumber)}
+        />
       </Card>
     );
   }
@@ -77,7 +81,11 @@ export const StartGamesScreen = () => {
           />
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
-              <Button title="Reset" color={Colors.accent} onPress={resetInputHandler} />
+              <Button
+                title="Reset"
+                color={Colors.accent}
+                onPress={resetInputHandler}
+              />
             </View>
             <View style={styles.button}>
               <Button
@@ -125,6 +133,6 @@ const styles = StyleSheet.create({
   },
   summaryContainer: {
     marginTop: 20,
-    alignItems: 'center'
-  }
+    alignItems: "center",
+  },
 });
