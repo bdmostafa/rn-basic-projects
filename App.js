@@ -1,13 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Header } from "./components/Header";
 import { GameOverScreen } from "./screens/GameOverScreen";
 import { GameScreen } from "./screens/GameScreen";
 import { StartGamesScreen } from "./screens/StartGamesScreen";
 
+// import AppLoading from "expo-app-loading";
+import { CustomAppLoading } from "./components/CustomAppLoading";
+import { fetchFonts } from "./misc/FetchFonts";
+
+
+
 export default function App() {
   const [userNumber, setUserNumber] = useState();
   const [guessRounds, setGuessRounds] = useState(0);
+  // const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  // if (!isDataLoaded) {
+  //   return (
+  //     <AppLoading
+  //       startAsync={fetchFonts}
+  //       onFinish={() => setIsDataLoaded(true)}
+  //       onError={(error) => console.log(error)}
+  //     />
+  //   );
+  // }
 
   const startGameHandler = (selectedNumber) => {
     setUserNumber(selectedNumber);
@@ -39,10 +56,12 @@ export default function App() {
   }
 
   return (
-    <View style={styles.screen}>
-      <Header title="Guess a Number" />
-      {content}
-    </View>
+    <CustomAppLoading startAsync={fetchFonts}>
+      <View style={styles.screen}>
+        <Header title="Guess a Number" />
+        {content}
+      </View>
+    </CustomAppLoading>
   );
 }
 
