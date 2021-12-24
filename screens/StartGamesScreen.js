@@ -8,11 +8,13 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { BodyText } from "../components/BodyText";
 import { Card } from "../components/Card";
 import { Input } from "../components/Input";
 import { NumberContainer } from "../components/NumberContainer";
 import { TitleText } from "../components/TitleText";
 import Colors from "../constants/colors";
+import defaultStyles from "../constants/default-styles";
 
 export const StartGamesScreen = ({ onStartGame }) => {
   const [enteredValue, setEnteredValue] = useState("");
@@ -49,7 +51,7 @@ export const StartGamesScreen = ({ onStartGame }) => {
   if (confirmed) {
     confirmedOutput = (
       <Card style={styles.summaryContainer}>
-        <Text>You selected</Text>
+        <Text style={defaultStyles.bodyText}>You selected</Text>
         <NumberContainer>{selectedNumber}</NumberContainer>
         <Button
           color={Colors.accent}
@@ -69,7 +71,7 @@ export const StartGamesScreen = ({ onStartGame }) => {
       <View style={styles.screen}>
         <TitleText style={styles.title}>Start a New Game!</TitleText>
         <Card style={styles.inputContainer}>
-          <Text>Select a Number</Text>
+          <BodyText>Select a Number</BodyText>
           <Input
             blurOnSubmit
             style={styles.input}
