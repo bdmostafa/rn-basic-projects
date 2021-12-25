@@ -15,6 +15,7 @@ import Colors from "../constants/colors";
 import DefaultStyles from "../constants/default-styles";
 import { AntDesign } from "@expo/vector-icons";
 import { BodyText } from "../components/BodyText";
+import * as ScreenOrientation from "expo-screen-orientation";
 
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
@@ -30,6 +31,9 @@ const generateRandomBetween = (min, max, exclude) => {
 };
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
+  // Orientation is locked when app reaches at some points
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+
   // Function for ScrollView
   // const renderListItem = (value, numOfRounds) => {
   //   return (
