@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { useState } from "react";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import { Header } from "./components/Header";
 import { GameOverScreen } from "./screens/GameOverScreen";
 import { GameScreen } from "./screens/GameScreen";
@@ -8,8 +8,6 @@ import { StartGamesScreen } from "./screens/StartGamesScreen";
 // import AppLoading from "expo-app-loading";
 import { CustomAppLoading } from "./components/CustomAppLoading";
 import { fetchFonts } from "./misc/FetchFonts";
-
-
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
@@ -56,12 +54,12 @@ export default function App() {
   }
 
   return (
-    <CustomAppLoading startAsync={fetchFonts}>
-      <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
+      <CustomAppLoading startAsync={fetchFonts}>
         <Header title="Guess a Number" />
         {content}
-      </View>
-    </CustomAppLoading>
+      </CustomAppLoading>
+    </SafeAreaView>
   );
 }
 
