@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Card } from "../components/Card";
 import { NumberContainer } from "../components/NumberContainer";
-import { PrimaryButton } from "../components/PrimaryButton";
+import { PrimaryButton } from "../components/PrimaryButton.ios";
 import Colors from "../constants/colors";
 import DefaultStyles from "../constants/default-styles";
 import { AntDesign } from "@expo/vector-icons";

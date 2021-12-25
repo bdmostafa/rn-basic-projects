@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { BodyText } from "../components/BodyText";
-import { PrimaryButton } from "../components/PrimaryButton";
+import { PrimaryButton } from "../components/PrimaryButton.ios";
 import { TitleText } from "../components/TitleText";
 import Colors from "../constants/colors";
 

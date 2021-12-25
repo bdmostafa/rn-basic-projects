@@ -15,7 +15,7 @@ import { BodyText } from "../components/BodyText";
 import { Card } from "../components/Card";
 import { Input } from "../components/Input";
 import { NumberContainer } from "../components/NumberContainer";
-import { PrimaryButton } from "../components/PrimaryButton";
+import { PrimaryButton } from "../components/PrimaryButton.ios";
 import { TitleText } from "../components/TitleText";
 import Colors from "../constants/colors";
 import defaultStyles from "../constants/default-styles";
