@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Alert,
   Button,
+  Dimensions,
   Keyboard,
   StyleSheet,
   Text,
@@ -114,8 +115,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   inputContainer: {
-    width: 300,
-    maxWidth: "80%",
+    width: "80%",
+    maxWidth: "90%",
+    minWidth: 285,
     alignItems: "center",
   },
   input: {
@@ -129,8 +131,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   button: {
-    width: 100,
+    // width: 100,
     maxWidth: "80%",
+    width: Dimensions.get("window").width / 4
   },
   summaryContainer: {
     marginTop: 20,
