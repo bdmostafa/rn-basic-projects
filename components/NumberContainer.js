@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     width: 65,
     height: 65,
     borderWidth: 2,
-    borderColor: Colors.primary,
+    borderColor: Colors.accent,
     padding: 10,
     borderRadius: 10,
     marginVertical: 10,
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
   number: {
     color: Colors.primary,
     fontSize: 22,
-    paddingBottom: 3
+    paddingBottom: 3,
+    fontFamily: "open-sans-bold",
   },
 });

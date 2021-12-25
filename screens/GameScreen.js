@@ -5,6 +5,7 @@ import { NumberContainer } from "../components/NumberContainer";
 import { PrimaryButton } from "../components/PrimaryButton";
 import Colors from "../constants/colors";
 import DefaultStyles from "../constants/default-styles";
+import { AntDesign } from "@expo/vector-icons";
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
   const currentLow = useRef(1);
@@ -74,7 +75,7 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
             nextGuessHandler("lower");
           }}
         >
-          LOWER
+          <AntDesign name="minuscircleo" size={24} color="white" />
         </PrimaryButton>
         <PrimaryButton
           style={styles.btnGreater}
@@ -82,7 +83,7 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
             nextGuessHandler("greater");
           }}
         >
-          GREATER
+          <AntDesign name="pluscircleo" size={24} color="white" />
         </PrimaryButton>
       </Card>
     </View>
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 20,
-    width: 400,
+    width: 300,
     maxWidth: "90%",
   },
   btnLower: {

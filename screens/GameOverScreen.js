@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { BodyText } from "../components/BodyText";
+import { PrimaryButton } from "../components/PrimaryButton";
 import { TitleText } from "../components/TitleText";
 import Colors from "../constants/colors";
 
@@ -32,7 +33,7 @@ export const GameOverScreen = ({ roundsNumber, onRestart, userNumber }) => {
       </View>
 
       <View style={{ marginTop: 25 }}>
-        <Button title="NEW GAME" onPress={onRestart} />
+        <PrimaryButton onPress={onRestart}>NEW GAME</PrimaryButton>
       </View>
     </View>
   );
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   },
   resultContainer: {
     marginHorizontal: 30,
-    marginVertical: 15,
+    marginVertical: 10,
   },
   resultText: {
     textAlign: "center",
