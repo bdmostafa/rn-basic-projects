@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Alert,
-  Button,
   Dimensions,
   FlatList,
   ScrollView,
@@ -30,27 +29,38 @@ const generateRandomBetween = (min, max, exclude) => {
   }
 };
 
-// Function for ScrollView
-// const renderListItem = (value, numOfRounds) => {
-//   return (
-//     <View key={value} style={styles.listItem}>
-//       <BodyText>#{numOfRounds}</BodyText>
-//       <BodyText>{value}</BodyText>
-//     </View>
-//   );
-// };
-
-// Function for FlatList
-const renderListItem = (listLength, itemData) => {
-  return (
-    <View style={styles.listItem}>
-      <BodyText>#{listLength - itemData.index}</BodyText>
-      <BodyText>{itemData.item}</BodyText>
-    </View>
-  );
-};
-
 export const GameScreen = ({ userChoice, onGameOver }) => {
+  // Function for ScrollView
+  // const renderListItem = (value, numOfRounds) => {
+  //   return (
+  //     <View
+  //       key={value}
+  //       style={{
+  //         ...styles.listItem,
+  //         ...{ padding: availableDeviceHeight > 350 ? 15 : 10 },
+  //       }}
+  //     >
+  //       <BodyText>#{numOfRounds}</BodyText>
+  //       <BodyText>{value}</BodyText>
+  //     </View>
+  //   );
+  // };
+
+  // Function for FlatList
+  const renderListItem = (listLength, itemData) => {
+    return (
+      <View
+        style={{
+          ...styles.listItem,
+          ...{ padding: availableDeviceHeight > 350 ? 15 : 10 },
+        }}
+      >
+        <BodyText>#{listLength - itemData.index}</BodyText>
+        <BodyText>{itemData.item}</BodyText>
+      </View>
+    );
+  };
+
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
@@ -59,6 +69,12 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
   // const [rounds, setRounds] = useState(0);
   const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const [availableDeviceHeight, setAvailableDeviceHeight] = useState(
+    Dimensions.get("window").height
+  );
+  const [availableDeviceWidth, setAvailableDeviceWidth] = useState(
+    Dimensions.get("window").width
+  );
 
   const nextGuessHandler = (direction) => {
     if (
@@ -87,7 +103,10 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
 
     setCurrentGuess(nextNumber);
     // setRounds((curRounds) => curRounds + 1);
-    setPastGuesses((currentGuesses) => [nextNumber.toString(), ...currentGuesses]);
+    setPastGuesses((currentGuesses) => [
+      nextNumber.toString(),
+      ...currentGuesses,
+    ]);
   };
 
   useEffect(() => {
@@ -96,17 +115,33 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
     }
   }, [currentGuess, userChoice, onGameOver]);
 
+  useEffect(() => {
+    const updateLayout = () => {
+      setAvailableDeviceHeight(Dimensions.get("window").height);
+      setAvailableDeviceWidth(Dimensions.get("window").width);
+    };
+
+    Dimensions.addEventListener("change", updateLayout);
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  });
+
   let listContainerStyle = styles.listContainer;
 
-  if (Dimensions.get('window').width < 350) {
+  if (availableDeviceWidth < 350) {
     listContainerStyle = styles.listContainerBig;
   }
 
-  return (
-    <View style={styles.screen}>
-      <Text style={DefaultStyles.title}>Opponent's Guess</Text>
+  let gameControls = (
+    <>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <Card style={styles.buttonContainer}>
+      <Card
+        style={{
+          ...styles.buttonContainer,
+          ...{ marginTop: availableDeviceHeight > 600 ? 20 : 5 },
+        }}
+      >
         <PrimaryButton
           style={styles.btnLower}
           onPress={() => {
@@ -124,6 +159,38 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
           <AntDesign name="pluscircleo" size={24} color="white" />
         </PrimaryButton>
       </Card>
+    </>
+  );
+
+  if (availableDeviceHeight < 500) {
+    gameControls = (
+      <View style={styles.lessHeightLayoutControls}>
+        <PrimaryButton
+          style={styles.btnLower}
+          onPress={() => {
+            nextGuessHandler("lower");
+          }}
+        >
+          <AntDesign name="minuscircleo" size={24} color="white" />
+        </PrimaryButton>
+        <NumberContainer>{currentGuess}</NumberContainer>
+        <PrimaryButton
+          style={styles.btnGreater}
+          onPress={() => {
+            nextGuessHandler("greater");
+          }}
+        >
+          <AntDesign name="pluscircleo" size={24} color="white" />
+        </PrimaryButton>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Text style={DefaultStyles.title}>Opponent's Guess</Text>
+
+      {gameControls}
 
       <View style={listContainerStyle}>
         {/* <ScrollView contentContainerStyle={styles.list}>
@@ -137,8 +204,8 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
           keyExtractor={(item) => item}
           data={pastGuesses}
           renderItem={renderListItem.bind(this, pastGuesses.length)}
-          contentContainerStyle={styles.list}>
-        </FlatList>
+          contentContainerStyle={styles.list}
+        ></FlatList>
       </View>
     </View>
   );
@@ -150,11 +217,17 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
   },
+  lessHeightLayoutControls: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: "80%",
+  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     // marginTop: 20,
-    marginTop: Dimensions.get("window").height > 600 ? 20 : 5,
+    // marginTop: Dimensions.get("window").height > 600 ? 20 : 5,
     width: 300,
     maxWidth: "90%",
   },
@@ -164,13 +237,13 @@ const styles = StyleSheet.create({
   btnGreater: {
     backgroundColor: Colors.primary,
   },
-   listContainer: {
+  listContainer: {
     flex: 1,
-    width: '60%'
+    width: "60%",
   },
   listContainerBig: {
     flex: 1,
-    width: '80%'
+    width: "80%",
   },
   list: {
     flexGrow: 1,
@@ -180,7 +253,7 @@ const styles = StyleSheet.create({
   listItem: {
     borderColor: "lightgray",
     borderWidth: 1,
-    padding: Dimensions.get("window").width > 350 ? 15 : 10,
+    // padding: Dimensions.get("window").width > 350 ? 15 : 10,
     marginVertical: 5,
     backgroundColor: "white",
     flexDirection: "row",

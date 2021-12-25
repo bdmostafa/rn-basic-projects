@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from "react-native";
 
 import Colors from "../constants/colors";
 
-export const NumberContainer = ({ children }) => {
+export const NumberContainer = ({ style, children }) => {
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, ...style}}>
       <Text style={styles.number}>{children}</Text>
     </View>
   );
