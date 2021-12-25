@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import { Card } from "../components/Card";
 import { NumberContainer } from "../components/NumberContainer";
-import DefaultStyles from '../constants/default-styles';
+import { PrimaryButton } from "../components/PrimaryButton";
+import Colors from "../constants/colors";
+import DefaultStyles from "../constants/default-styles";
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
   const currentLow = useRef(1);
@@ -66,18 +68,22 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
       <Text style={DefaultStyles.title}>Opponent's Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.buttonContainer}>
-        <Button
-          title="LOWER"
+        <PrimaryButton
+          style={styles.btnLower}
           onPress={() => {
             nextGuessHandler("lower");
           }}
-        />
-        <Button
-          title="GREATER"
+        >
+          LOWER
+        </PrimaryButton>
+        <PrimaryButton
+          style={styles.btnGreater}
           onPress={() => {
             nextGuessHandler("greater");
           }}
-        />
+        >
+          GREATER
+        </PrimaryButton>
       </Card>
     </View>
   );
@@ -93,7 +99,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 20,
-    width: 300,
-    maxWidth: "80%",
+    width: 400,
+    maxWidth: "90%",
+  },
+  btnLower: {
+    backgroundColor: Colors.accent,
+  },
+  btnGreater: {
+    backgroundColor: Colors.primary,
   },
 });

@@ -13,6 +13,8 @@ export const NumberContainer = ({ children }) => {
 
 const styles = StyleSheet.create({
   container: {
+    width: 65,
+    height: 65,
     borderWidth: 2,
     borderColor: Colors.primary,
     padding: 10,
@@ -24,5 +26,6 @@ const styles = StyleSheet.create({
   number: {
     color: Colors.primary,
     fontSize: 22,
+    paddingBottom: 3
   },
 });

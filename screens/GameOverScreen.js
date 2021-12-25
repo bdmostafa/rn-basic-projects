@@ -23,8 +23,11 @@ export const GameOverScreen = ({ roundsNumber, onRestart, userNumber }) => {
       <View style={styles.resultContainer}>
         <BodyText style={styles.resultText}>
           Your phone needed{" "}
-          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.highlight}>{roundsNumber} </Text> rounds to guess
-          the number <Text style={styles.highlight}> {userNumber} </Text>{" "}
+          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.highlight}>
+            {roundsNumber}{" "}
+          </Text>{" "}
+          rounds to guess the number{" "}
+          <Text style={styles.highlight}> {userNumber} </Text>{" "}
         </BodyText>
       </View>
 

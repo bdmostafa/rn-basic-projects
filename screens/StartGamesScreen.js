@@ -12,6 +12,7 @@ import { BodyText } from "../components/BodyText";
 import { Card } from "../components/Card";
 import { Input } from "../components/Input";
 import { NumberContainer } from "../components/NumberContainer";
+import { PrimaryButton } from "../components/PrimaryButton";
 import { TitleText } from "../components/TitleText";
 import Colors from "../constants/colors";
 import defaultStyles from "../constants/default-styles";
@@ -53,11 +54,9 @@ export const StartGamesScreen = ({ onStartGame }) => {
       <Card style={styles.summaryContainer}>
         <Text style={defaultStyles.bodyText}>You selected</Text>
         <NumberContainer>{selectedNumber}</NumberContainer>
-        <Button
-          color={Colors.accent}
-          title="START GAME"
-          onPress={() => onStartGame(selectedNumber)}
-        />
+        <PrimaryButton onPress={() => onStartGame(selectedNumber)}>
+          START GAME
+        </PrimaryButton>
       </Card>
     );
   }
