@@ -1,33 +1,63 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Button,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Card } from "../components/Card";
 import { NumberContainer } from "../components/NumberContainer";
 import { PrimaryButton } from "../components/PrimaryButton";
 import Colors from "../constants/colors";
 import DefaultStyles from "../constants/default-styles";
 import { AntDesign } from "@expo/vector-icons";
+import { BodyText } from "../components/BodyText";
+
+const generateRandomBetween = (min, max, exclude) => {
+  min = Math.ceil(min);
+  max = Math.ceil(max);
+
+  const randomNumber = Math.floor(Math.random() * (max - min) + min);
+
+  if (randomNumber === exclude) {
+    return generateRandomBetween(min, max, exclude);
+  } else {
+    return randomNumber;
+  }
+};
+
+// Function for ScrollView
+// const renderListItem = (value, numOfRounds) => {
+//   return (
+//     <View key={value} style={styles.listItem}>
+//       <BodyText>#{numOfRounds}</BodyText>
+//       <BodyText>{value}</BodyText>
+//     </View>
+//   );
+// };
+
+// Function for FlatList
+const renderListItem = (listLength, itemData) => {
+  return (
+    <View style={styles.listItem}>
+      <BodyText>#{listLength - itemData.index}</BodyText>
+      <BodyText>{itemData.item}</BodyText>
+    </View>
+  );
+};
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
-  const [rounds, setRounds] = useState(0);
 
-  const generateRandomBetween = (min, max, exclude) => {
-    min = Math.ceil(min);
-    max = Math.ceil(max);
+  const initialGuess = generateRandomBetween(1, 100, userChoice);
 
-    const randomNumber = Math.floor(Math.random() * (max - min) + min);
-
-    if (randomNumber === exclude) {
-      return generateRandomBetween(min, max, exclude);
-    } else {
-      return randomNumber;
-    }
-  };
-
-  const [currentGuess, setCurrentGuess] = useState(
-    generateRandomBetween(1, 100, userChoice)
-  );
+  // const [rounds, setRounds] = useState(0);
+  const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
+  const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
   const nextGuessHandler = (direction) => {
     if (
@@ -45,7 +75,7 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
     if (direction === "lower") {
       currentHigh.current = currentGuess;
     } else {
-      currentLow.current = currentGuess;
+      currentLow.current = currentGuess + 1;
     }
 
     const nextNumber = generateRandomBetween(
@@ -55,12 +85,13 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
     );
 
     setCurrentGuess(nextNumber);
-    setRounds((curRounds) => curRounds + 1);
+    // setRounds((curRounds) => curRounds + 1);
+    setPastGuesses((currentGuesses) => [nextNumber.toString(), ...currentGuesses]);
   };
 
   useEffect(() => {
     if (currentGuess === userChoice) {
-      onGameOver(rounds);
+      onGameOver(pastGuesses.length);
     }
   }, [currentGuess, userChoice, onGameOver]);
 
@@ -86,6 +117,22 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
           <AntDesign name="pluscircleo" size={24} color="white" />
         </PrimaryButton>
       </Card>
+
+      <View style={styles.listContainer}>
+        {/* <ScrollView contentContainerStyle={styles.list}>
+          {pastGuesses.map((guess, idx) =>
+            renderListItem(guess, pastGuesses.length - idx)
+          )}
+        </ScrollView> */}
+
+        {/* FlatList usage instead of ScrollView */}
+        <FlatList
+          keyExtractor={(item) => item}
+          data={pastGuesses}
+          renderItem={renderListItem.bind(this, pastGuesses.length)}
+          contentContainerStyle={styles.list}>
+        </FlatList>
+      </View>
     </View>
   );
 };
@@ -108,5 +155,24 @@ const styles = StyleSheet.create({
   },
   btnGreater: {
     backgroundColor: Colors.primary,
+  },
+  listContainer: {
+    flex: 1,
+    width: "60%",
+  },
+  list: {
+    flexGrow: 1,
+    // alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  listItem: {
+    borderColor: "lightgray",
+    borderWidth: 1,
+    padding: 15,
+    marginVertical: 5,
+    backgroundColor: "white",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
 });
